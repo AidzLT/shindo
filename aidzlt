@@ -1,0 +1,30 @@
+local SOMEXHUB = loadstring(game:HttpGet("https://raw.githubusercontent.com/kickTh/New-Ui/main/Mercury_Lib.lua.txt"))();
+local xNero = SOMEXHUB:Create({Name = "AidzLT",Size = UDim2.fromOffset(600, 400),Theme = SOMEXHUB.Themes.Dark,Link = "https://github.com/AidzLT"})
+
+xNero:Notification({Title = "Welcome AidzLT Community",Text = "Cảm Ơn Đã Sài Script Lương Trường",Duration = 3})
+xNero:Credit{Name = "AidzLT",Description = "Discord AIDZLT",}
+
+local Main = xNero:Tab({Name = "Main",Icon = "rbxthumb://type=Asset&id=3517717568&w=150&h=150"})
+
+
+Main:Button({Name = "ServerHop",Description = nil,Callback = function()
+    local Http = game:GetService("HttpService")
+local TPS = game:GetService("TeleportService")
+local Api = "https://games.roblox.com/v1/games/"
+
+local _place = game.PlaceId
+local _servers = Api.._place.."/servers/Public?sortOrder=Asc&limit=100"
+function ListServers(cursor)
+   local Raw = game:HttpGet(_servers .. ((cursor and "&cursor="..cursor) or ""))
+   return Http:JSONDecode(Raw)
+end
+
+local Server, Next; repeat
+   local Servers = ListServers(Next)
+   Server = Servers.data[1]
+   Next = Servers.nextPageCursor
+until Server
+
+TPS:TeleportToPlaceInstance(_place,Server.id,game.Players.LocalPlayer)
+print("ServerHop")
+end})
